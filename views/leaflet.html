@@ -48,7 +48,8 @@
     </div>
 </nav>
 
-<h1>Quokka</h1>
+<h1 id="species"></h1>
+<h2 id="population"></h2>
 <p>Lorem Ipsum ....................</p>
 
 
@@ -58,6 +59,7 @@
 
 <div id="mapid"></div>
 <script>
+    //initialize leaflet
     var mymap = L.map('mapid').setView([-27.833, 133.583], 4);
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -67,23 +69,98 @@
         zoomOffset: -1,
         accessToken: 'pk.eyJ1IjoiYnJ5Y2V3aWxraW5zb240MyIsImEiOiJja245bnRqYzcwejN1MnNvMG0zczI0YzVhIn0.bspf_6DxvHvi4pm0eOOKkA'
     }).addTo(mymap);
-    var marker = L.marker([-27.833, 150.01]).addTo(mymap);
-    var circle = L.circle([-27.833, 152.55], {
+
+
+
+
+
+
+    //API Fetch and Set
+        let myJson
+        const userAction = async () => {
+            const response = await fetch('/species');
+            myJson = await response.json(); //extract JSON from the http response
+            // do something with myJson
+            console.log(myJson)
+            document.getElementById('species').innerText = myJson.menu.species
+
+            const obj = myJson.menu.GeoJSON.polygon
+            const objectToArray = obj => {
+                const keys = Object.keys(obj);
+                const res = [];
+                for(let i = 0; i < keys.length; i++){
+                    res.push(obj[keys[i]]);
+                };
+                return res;
+            };
+            const COORDS = objectToArray(obj);
+            let polygonCoords = []
+            COORDS.forEach(element => polygonCoords.push([element.long, element.lat]))
+            console.log(polygonCoords)
+            polygon =L.polygon(polygonCoords,{color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5}).addTo(mymap)
+            polygon.bindPopup("Drastically decreased, decimated by stray cats");
+
+
+
+        }
+        userAction()
+        circle = L.circle([-32.00522031995993, 115.5181870410761], {color: 'blue',
+            fillColor: '#7fff00',
+            fillOpacity: 0.5,
+            radius: 6500}).addTo(mymap)
+        circle.bindPopup("No Natural threats, very popular tourist location, stable population");
+
+        /*  ALTERNATIVE APROACH
+        const userAction = async () => {
+        const response = await fetch('/species', {
+        method: 'GET',
+        body: null, // string or object
+        headers: {
+        'Content-Type': 'application/json'
+    }
+    });
+        const myJson = await response.json(); //extract JSON from the http response
+        // do something with myJson
+        console.log(myJson)
+    }
+
+        userAction()
+
+        */
+
+
+
+    //var marker = L.marker([-27.833, 150.01]).addTo(mymap);
+    /*var circle = L.circle([-27.833, 152.55], {
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.5,
         radius: 500
     }).addTo(mymap);
-    var polygon = L.polygon([
-        [-27.833, 132.55],
-        [-27.833, 130.70],
-        [-26.833, 130.70]
-    ]).addTo(mymap);
-    var polygon2 = L.polygon([
+
+     */
+            //set coords
+            // [{long, lat}...]
+
+            /*L.polygon([
+
+            ]).addTo(mymap)
+
+             */
+
+
+
+
+
+    /*var polygon2 = L.polygon([
         [-31.82066202602414, 115.76475456437339],
         [-34.784389644249266, 116.10364812331744],
         [-33.715487257392525, 115.05364100657803]
     ]).addTo(mymap);
+
+     */
 </script>
 </body>
 </html>
