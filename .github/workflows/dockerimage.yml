@@ -9,8 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Login to DockerHub
-        run: echo ${{ secrets.DOCKER_PASSWORD}} | docker login
-        -u ${{ secrets.DOCKER_USERNAME}} --password-stdin
+        run: echo ${{ secrets.DOCKER_PASSWORD}} | docker login -u ${{ secrets.DOCKER_USERNAME}} --password-stdin
       - name: Build Docker Img
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/
-        node-project .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/node-project .
