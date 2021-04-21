@@ -3,6 +3,7 @@ const app = express();
 const cfenv = require("cfenv");
 const bodyParser = require('body-parser')
 const request = require('request');
+var cfenv = require("cfenv");
 //cannot use helmet with leaflet js
 //testing purposes
 const cors = require('cors');
