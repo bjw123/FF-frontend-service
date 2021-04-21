@@ -50,7 +50,7 @@
 
 <h1 id="species"></h1>
 <h2 id="population"></h2>
-<p>Lorem Ipsum ....................</p>
+<p id="info">Lorem Ipsum ....................</p>
 
 
 
@@ -78,34 +78,43 @@
     //API Fetch and Set
         let myJson
         const userAction = async () => {
-            const response = await fetch('/species');
+            const response = await fetch('/quokkaData');
             myJson = await response.json(); //extract JSON from the http response
             // do something with myJson
             console.log(myJson)
-            document.getElementById('species').innerText = myJson.menu.species
+            document.getElementById('species').innerText = myJson.name
+            document.getElementById('info').innerText = myJson.about
 
-            const obj = myJson.menu.GeoJSON.polygon
-            const objectToArray = obj => {
-                const keys = Object.keys(obj);
-                const res = [];
-                for(let i = 0; i < keys.length; i++){
-                    res.push(obj[keys[i]]);
-                };
-                return res;
-            };
-            const COORDS = objectToArray(obj);
-            let polygonCoords = []
-            COORDS.forEach(element => polygonCoords.push([element.long, element.lat]))
-            console.log(polygonCoords)
-            polygon =L.polygon(polygonCoords,{color: 'red',
+
+            //json data supports multiple coords for scalability for later production
+
+            let COORDS = []
+
+
+            function json2array(json){
+                var result = [];
+                var keys = Object.keys(json);
+                keys.forEach(function(key){
+                    result.push(json[key]);
+                });
+                return result;
+            }
+            //Some problem with passing nested array and cannot call JSON.parse()
+            /*
+            myJson.geoData.forEach(element=> {COORDS.push(json2array(myJson.geoData))})
+            console.log(COORDS)
+            */
+            /*
+            polygon =L.polygon(COORDS,{color: 'red',
                 fillColor: '#f03',
                 fillOpacity: 0.5}).addTo(mymap)
             polygon.bindPopup("Drastically decreased, decimated by stray cats");
-
-
+            */
 
         }
         userAction()
+
+        //manual for rotnest island add to db
         circle = L.circle([-32.00522031995993, 115.5181870410761], {color: 'blue',
             fillColor: '#7fff00',
             fillOpacity: 0.5,
