@@ -1,5 +1,5 @@
 ---
 applications:
- - name: GetStartedNode
+ - name: FF-frontend-service
    random-route: true
-   memory: 256M
+   memory: 64M
