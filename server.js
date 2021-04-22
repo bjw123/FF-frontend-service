@@ -66,7 +66,7 @@ app.listen(port, function() {
     console.log("To view your app, open this link in your browser: http://localhost:" + port);
 });
 
-
+//list of species in DB for later iteration
 app.get('/species', (req, res) =>{
   request('http://localhost:3000', function (error, response, body) {
     if (!error && response.statusCode == 200) {
@@ -79,7 +79,8 @@ app.get('/species', (req, res) =>{
 
 //GeoData Species
 app.get('/quokkaData', (req, res) =>{
-  request('http://localhost:4000/quokka', function (error, response, body) {
+  //localhost 4000
+  request('https://species-map-service.us-south.cf.appdomain.cloud/quokka', function (error, response, body) {
     if (!error && response.statusCode == 200) {
       console.log(body) // Print the google web page.
       res.send(body)
@@ -89,7 +90,7 @@ app.get('/quokkaData', (req, res) =>{
 })
 
 app.get('/wgkData', (req, res) =>{
-  request('http://localhost:4000/wgk', function (error, response, body) {
+  request('https://species-map-service.us-south.cf.appdomain.cloud/wgk', function (error, response, body) {
     if (!error && response.statusCode == 200) {
       console.log(body) // Print the google web page.
       res.send(body)
@@ -98,40 +99,3 @@ app.get('/wgkData', (req, res) =>{
 
 })
 
-/*
-const DiscoveryV1 = require('ibm-watson/discovery/v1');
-const { IamAuthenticator } = require('ibm-watson/auth');
-
-const discovery = new DiscoveryV1({
-  version: '2019-04-30',
-  authenticator: new IamAuthenticator({
-    apikey: '{WqipI59T3pPZlTshaCoalrdNcrcp0k8vKuAaJcZSdOdp}',
-  }),
-  serviceUrl: '{https://api.us-south.discovery.watson.cloud.ibm.com/instances/20965335-5ee4-4058-b3c0-ef976fc70e09}',
-});
-
-const queryParams = {
-  environmentId: '{system}',
-  collectionId: '{news-en}',
-  query: 'host::abc.net.au text:Quokka'
-};
-
-discovery.query(queryParams)
-    .then(queryResponse => {
-      console.log(JSON.stringify(queryResponse, null, 2));
-    })
-    .catch(err => {
-      console.log('error:', err);
-    });
-
- */
-
-app.get('/watson/discovery', (req, res) =>{
-  request('http://localhost:4000/wgk', function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      console.log(body) // Print the google web page.
-      res.send(body)
-    }
-  })
-
-})
