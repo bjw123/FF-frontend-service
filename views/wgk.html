@@ -78,7 +78,7 @@
     //API Fetch and Set
         let myJson
         const userAction = async () => {
-            const response = await fetch('/quokkaData');
+            const response = await fetch('/wgkData');
             myJson = await response.json(); //extract JSON from the http response
             // do something with myJson
             console.log(myJson)
@@ -115,18 +115,29 @@
         }
         userAction()
 
-        //doing manually since DB data is abit messy
-        polygon = L.polygon([[-31.82066202602414, 115.76475456437339],[-34.784389644249266, 116.10364812331744], [-33.715487257392525, 115.05364100657803]], {color:'red'}).addTo(mymap)
-        polygon.bindPopup("The mainland population has been devasted by stray cats with the population scattered across the coast of Western Australia in small groups *usually 50 or less in a tribe")
         //manual for rotnest island add to db
-        circle = L.circle([-32.00522031995993, 115.5181870410761], {color: 'blue',
-            fillColor: '#7fff00',
-            fillOpacity: 0.5,
-            radius: 6500}).addTo(mymap)
-        circle.bindPopup("No Natural threats, very popular tourist location, stable population");
+        polygon = L.polygon(
+            [[-28.760592865369176, 114.6462335507142], [-34.38882520238259, 115.61304502454006], [-31.617216175243563, 130.84107890079105], [-37.44113963016639, 140.0256493290082], [-28.76894610124382, 153.3850244973241]]
+        ,{color: 'green'}).addTo(mymap)
+        polygon.bindPopup("The population is of least concern, kangaroos thrive in a variety of environments and are too large to fall pray to invasive species such as feral cats");
 
+        /*  ALTERNATIVE APROACH
+        const userAction = async () => {
+        const response = await fetch('/species', {
+        method: 'GET',
+        body: null, // string or object
+        headers: {
+        'Content-Type': 'application/json'
+    }
+    });
+        const myJson = await response.json(); //extract JSON from the http response
+        // do something with myJson
+        console.log(myJson)
+    }
 
+        userAction()
 
+        */
 
 
 
